@@ -11,16 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160324180245) do
+ActiveRecord::Schema.define(version: 20160324203512) do
 
-  create_table "polls", force: :cascade do |t|
-    t.string   "title",      null: false
-    t.integer  "author",     null: false
+  create_table "answer_choices", force: :cascade do |t|
+    t.integer  "question_id", null: false
+    t.string   "text",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "polls", ["author"], name: "index_polls_on_author"
+  add_index "answer_choices", ["question_id"], name: "index_answer_choices_on_question_id"
+
+  create_table "polls", force: :cascade do |t|
+    t.string   "title",      null: false
+    t.integer  "author_id",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "polls", ["author_id"], name: "index_polls_on_author_id"
 
   create_table "questions", force: :cascade do |t|
     t.string   "text",       null: false
@@ -30,6 +39,16 @@ ActiveRecord::Schema.define(version: 20160324180245) do
   end
 
   add_index "questions", ["poll_id"], name: "index_questions_on_poll_id"
+
+  create_table "responses", force: :cascade do |t|
+    t.integer  "user_id",          null: false
+    t.integer  "answer_choice_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "responses", ["answer_choice_id"], name: "index_responses_on_answer_choice_id"
+  add_index "responses", ["user_id"], name: "index_responses_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "user_name",  null: false

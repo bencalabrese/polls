@@ -7,14 +7,18 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-
-200.times do
-  # byebug
+100.times do
   u = User.create!(user_name: Faker::Internet.user_name)
 
-  poll = Poll.create!(author: u.id, title: Faker::Hipster.words(3))
+  poll = Poll.create!(author_id: u.id, title: Faker::Hipster.sentence)
 
   5.times do
-    Question.create!(text: Faker::Lorem.sentence, poll_id: poll.id)
+    q = Question.create!(text: Faker::Lorem.sentence, poll_id: poll.id)
+
+    3.times do
+      a = AnswerChoice.create!(question_id: q.id, text: Faker::Lorem.characters(1))
+
+      Response.create!(answer_choice_id: a.id, user_id: User.all.sample.id)
+    end
   end
 end

@@ -1,8 +1,8 @@
 class Poll < ActiveRecord::Base
-  validates :title, :author, presence: true
+  validates :title, :author_id, presence: true
 
-  belongs_to :user,
-    foreign_key: :author,
+  belongs_to :author,
+    foreign_key: :author_id,
     primary_key: :user_name,
     class_name: :User
 
